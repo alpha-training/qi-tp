@@ -1,5 +1,6 @@
-/q tick.q SRC [DST] [-p 5010] [-o h]
-system"l tick/",(src:first .z.x,enlist"sym"),".q"
+/ Based on Kx's https://github.com/KxSystems/kdb-tick
+
+/ system"l tick/",(src:first .z.x,enlist"sym"),".q"
 
 if[not system"p";system"p 5010"]
 
@@ -30,5 +31,5 @@ if[not system"t";system"t 1000";
  if[not -16=type first first x;a:"n"$a;x:$[0>type first x;a,x;(enlist(count first x)#a),x]];
  f:key flip value t;pub[t;$[0>type first x;enlist f!x;flip f!x]];if[l;l enlist (`upd;t;x);i+:1];}];
 
-\d .
-.u.tick[src;.z.x 1];
+/ \d .
+/.u.tick[src;.z.x 1];
