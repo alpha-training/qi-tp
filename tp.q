@@ -1,9 +1,7 @@
 / Based on Kx's https://github.com/KxSystems/kdb-tick
 
-/ system"l tick/",(src:first .z.x,enlist"sym"),".q"
-
 if[not system"p";system"p 5010"]
-
+@[system;"l schema.q";"No Schema Found In Current Directory"]
 \d .u
 init:{w::t!(count t::tables`.)#()}
 del:{w[x]_:w[x;;0]?y};.z.pc:{del[;x]each t};
@@ -14,11 +12,10 @@ sub:{if[x~`;:sub[;y]each t];if[not x in t;'x];del[x].z.w;add[x;y]}
 end:{(neg union/[w[;;0]])@\:(`.u.end;x)}
 
 ld:{if[not type key L::`$(-10_string L),string x;.[L;();:;()]];i::j::-11!(-2;L);if[0<=type i;-2 (string L)," is a corrupt log. Truncate to length ",(string last i)," and restart";exit 1];hopen L};
-tick:{init[];if[not min(`time`sym~2#key flip value@)each t;'`timesym];@[;`sym;`g#]each t;d::.z.D;if[l::count y;L::`$":",y,"/",x,10#".";l::ld d]};
+tick:{init[];if[not min(`time`sym~2#key flip value@)each t;'`timesym];@[;`sym;`g#]each t;d::.z.D;;L::`$":logs/tp",10#".";l::ld d};
 
 endofday:{end d;d+:1;if[l;hclose l;l::0(`.u.ld;d)]};
 ts:{if[d<x;if[d<x-1;system"t 0";'"more than one day?"];endofday[]]};
-
 if[system"t";
  .z.ts:{pub'[t;value each t];@[`.;t;@[;`sym;`g#]0#];i::j;ts .z.D};
  upd:{[t;x]
@@ -31,5 +28,5 @@ if[not system"t";system"t 1000";
  if[not -16=type first first x;a:"n"$a;x:$[0>type first x;a,x;(enlist(count first x)#a),x]];
  f:key flip value t;pub[t;$[0>type first x;enlist f!x;flip f!x]];if[l;l enlist (`upd;t;x);i+:1];}];
 
-/ \d .
-/.u.tick[src;.z.x 1];
+\d .
+.u.tick[]
