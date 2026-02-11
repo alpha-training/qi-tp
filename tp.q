@@ -1,7 +1,10 @@
 / Based on Kx's https://github.com/KxSystems/kdb-tick
 
 if[not system"p";system"p 5010"]
-@[system;"l schema.q";"No Schema Found In Current Directory"]
+
+.qi.loadschemafile[];
+{[t] t set .schemas.t t}each 1_key .schemas.t;
+
 \d .u
 init:{w::t!(count t::tables`.)#()}
 del:{w[x]_:w[x;;0]?y};.z.pc:{del[;x]each t};
