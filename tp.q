@@ -1,8 +1,7 @@
 / Based on Kx's https://github.com/KxSystems/kdb-tick
 
 .qi.import`log
-.qi.loadschemafile[];
-{[t] t set .schemas.t t}each 1_key .schemas.t;
+.qi.loadschemafile[]
 
 \d .u
 
