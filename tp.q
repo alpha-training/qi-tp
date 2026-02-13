@@ -1,13 +1,11 @@
 / Based on Kx's https://github.com/KxSystems/kdb-tick
 
 .qi.import`log
-.qi.loadschemafile[];
-{[t] t set .schemas.t t}each 1_key .schemas.t;
 
 \d .u
 
 init:{
-  logs::.qi.path(.conf.LOGS;.proc.name);
+  LOGS::.qi.path(.conf.LOGS;.proc.name);
   w::t!(count t::tables`.)#()
   }
 
@@ -19,7 +17,7 @@ sub:{if[x~`;:sub[;y]each t];if[11=type x;:$[type y;sub[;y]each x;sub'[x;y]]];if[
 end:{(neg union/[w[;;0]])@\:(`.u.end;x)}
 
 ld:{if[not type key L::`$(-10_string L),string x;.[L;();:;()]];i::j::-11!(-2;L);if[0<=type i;-2 (string L)," is a corrupt log. Truncate to length ",(string last i)," and restart";exit 1];hopen L};
-tick:{init[];if[not min(`time`sym~2#key flip value@)each t;'`timesym];@[;`sym;`g#]each t;d::.z.D;;L::.qi.path(logs;"tp",10#".");l::ld d};
+tick:{init[];if[not min(`time`sym~2#key flip value@)each t;'`timesym];@[;`sym;`g#]each t;d::.z.D;;L::.qi.path(LOGS;"tp",10#".");l::ld d};
 
 endofday:{end d;d+:1;if[l;hclose l;l::0(`.u.ld;d)]};
 ts:{if[d<x;if[d<x-1;system"t 0";'"more than one day?"];endofday[]]};
@@ -37,4 +35,7 @@ if[.conf.TP_BATCH_PERIOD;
 
 \d .
 
-if[.qi.isproc;.u.tick`]
+if[.qi.isproc;
+  $[count system"a";
+    .u.tick`;
+    '"\ntp expects tables to be defined with a '-schemas' option at the cmd line e.g. \n   ... -schemas alpaca or -schemas binance,kraken\n"]];
