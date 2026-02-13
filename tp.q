@@ -1,7 +1,6 @@
 / Based on Kx's https://github.com/KxSystems/kdb-tick
 
 .qi.import`log
-.qi.loadschemafile[]
 
 \d .u
 
@@ -36,4 +35,7 @@ if[.conf.TP_BATCH_PERIOD;
 
 \d .
 
-if[.qi.isproc;.u.tick`]
+if[.qi.isproc;
+  $[count system"a";
+    .u.tick`;
+    '"\ntp expects tables to be defined with a '-schemas' option at the cmd line e.g. \n   ... -schemas alpaca or -schemas binance,kraken\n"]];
