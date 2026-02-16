@@ -35,7 +35,9 @@ if[not .conf.TP_BATCH_PERIOD;
 
 \d .
 
-if[.qi.isproc;
-  $[count system"a";
-    .u.tick`;
-    '"\ntp expects tables to be defined with a '-schemas' option at the cmd line e.g. \n   ... -schemas alpaca or -schemas binance,kraken\n"]];
+.tp.init:{
+  if[.qi.isproc;
+    $[count system"a .";
+      .u.tick`;
+      '"\ntp expects tables to be defined with a '-schemas' option at the cmd line e.g. \n   ... -schemas alpaca or -schemas binance,kraken\n"]];
+  }
