@@ -31,10 +31,11 @@ if[not .conf.TP_BATCH_PERIOD;
  .z.ts:{ts .z.D};
  upd:{[t;x]ts"d"$a:.z.P;
  if[not -12=type first first x;a:"p"$a;x:$[0>type first x;a,x;(enlist(count first x)#a),x]];
- f:key flip get[.schemas.t] key[.schemas.t]?t;pub[t;$[0>type first x;enlist f!x;flip f!x]];if[l;l enlist (`upd;t;x);i+:1];}];
+ f:cols .schemas.t t;pub[t;$[0>type first x;enlist f!x;flip f!x]];if[l;l enlist (`upd;t;x);i+:1];}];
 
 \d .
 
+/ first` vs t
 .tp.init:{
   if[.qi.isproc;
     $[count system"a .";
