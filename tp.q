@@ -8,8 +8,9 @@ init:{
   LOGS::.qi.path(.conf.LOGS;.proc.name);
   w::t!(count t::tables`.)#()
   }
-
-del:{w[x]_:w[x;;0]?y};.z.pc:{del[;x]each t};
+  
+del:{w[x]_:w[x;;0]?y};
+.z.pc:{del[;x]each t};
 sel:{$[`~y;x;select from x where sym in y]}
 pub:{[t;x]{[t;x;w]if[count x:sel[x]w 1;(neg first w)(`upd;t;x)]}[t;x]each w t}
 add:{$[(count w x)>i:w[x;;0]?.z.w;.[`.u.w;(x;i;1);union;y];w[x],:enlist(.z.w;y)];(x;$[99=type v:value x;sel[v]y;@[0#v;`sym;`g#]])}
@@ -29,13 +30,12 @@ if[.conf.TP_BATCH_PERIOD;
 
 if[not .conf.TP_BATCH_PERIOD;
  .z.ts:{ts .z.D};
- upd:{[t;x]ts"d"$a:.z.P;
+ upd:{[t;x]ts"d"$a:.z.P;@[`x;-1+count x;:;.z.p];
  if[not -12=type first first x;a:"p"$a;x:$[0>type first x;a,x;(enlist(count first x)#a),x]];
  f:cols .schemas.t t;pub[t;$[0>type first x;enlist f!x;flip f!x]];if[l;l enlist (`upd;t;x);i+:1];}];
 
 \d .
 
-/ first` vs t
 .tp.init:{
   if[.qi.isproc;
     $[count system"a .";
