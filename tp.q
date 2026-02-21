@@ -1,7 +1,5 @@
 / Based on Kx's https://github.com/KxSystems/kdb-tick
 
-.qi.import`log
-
 \d .u
 
 init:{
