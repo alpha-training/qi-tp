@@ -3,7 +3,7 @@
 \d .u
 
 init:{
-  LOGS::.qi.path(.conf.LOGS;.proc.name);
+  LOGS::.qi.path(.conf.LOGS;.proc.self.name);
   w::t!(count t::tables`.)#()
   }
   
