@@ -21,13 +21,13 @@ tick:{init[];if[not min(`time`sym~2#key flip value@)each t;'`timesym];@[;`sym;`g
 endofday:{end d;d+:1;if[l;hclose l;l::0(`.u.ld;d)]};
 ts:{if[d<x;if[d<x-1;system"t 0";'"more than one day?"];endofday[]]};
 if[.conf.TP_BATCH_PERIOD;
- .z.ts:{pub'[t;value each t];@[`.;t;@[;`sym;`g#]0#];i::j;ts .z.D};
- upd:{[t;x]
- if[not -16=type first first x;if[d<"d"$a:.z.P;.z.ts[]];a:"n"$a;x:$[0>type first x;a,x;(enlist(count first x)#a),x]];
- t insert x;if[l;l enlist (`upd;t;x);j+:1];}];
+  .event.addhandler[`.z.ts;{.u.pub'[.u.t;value each .u.t];@[`.;.u.t;@[;`sym;`g#]0#];i::.u.j;.u.ts .z.D}];
+  upd:{[t;x]
+  if[not -16=type first first x;if[d<"d"$a:.z.P;.z.ts[]];a:"n"$a;x:$[0>type first x;a,x;(enlist(count first x)#a),x]];
+  t insert x;if[l;l enlist (`upd;t;x);j+:1];}];
 
 if[not .conf.TP_BATCH_PERIOD;
- .z.ts:{ts .z.D};
+  .event.addhandler[`.z.ts;{.u.ts .z.D}];
  upd:{[t;x]ts"d"$a:.z.P;x:@[x;-1+count x;:;.z.p];
  if[not -12=type first first x;a:"p"$a;x:$[0>type first x;a,x;(enlist(count first x)#a),x]];
  f:cols .schemas.t t;pub[t;$[0>type first x;enlist f!x;flip f!x]];if[l;l enlist (`upd;t;x);i+:1];}];
