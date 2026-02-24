@@ -27,7 +27,7 @@ if[.conf.TP_BATCH_PERIOD;
   t insert x;if[l;l enlist (`upd;t;x);j+:1];}];
 
 if[not .conf.TP_BATCH_PERIOD;
-  .event.addhandler[`.z.ts;{.u.ts .z.D}];
+ .event.addhandler[`.z.ts;{.u.ts .z.D}];
  upd:{[t;x]ts"d"$a:.z.P;x:@[x;-1+count x;:;.z.p];
  if[not -12=type first first x;a:"p"$a;x:$[0>type first x;a,x;(enlist(count first x)#a),x]];
  f:cols .schemas.t t;pub[t;$[0>type first x;enlist f!x;flip f!x]];if[l;l enlist (`upd;t;x);i+:1];}];
