@@ -23,7 +23,7 @@ ts:{if[d<x;if[d<x-1;system"t 0";'"more than one day?"];endofday[]]};
 if[.conf.TP_BATCH_PERIOD;
   .event.addhandler[`.z.ts;{.u.pub'[.u.t;value each .u.t];@[`.;.u.t;@[;`sym;`g#]0#];i::.u.j;.u.ts .z.D}];
   upd:{[t;x]
-  if[not -16=type first first x;if[d<"d"$a:.z.P;.z.ts[]];a:"n"$a;x:$[0>type first x;a,x;(enlist(count first x)#a),x]];
+  if[not -12=type first first x;if[d<"d"$a:.z.P;.z.ts[]];a:"n"$a;x:$[0>type first x;a,x;(enlist(count first x)#a),x]];
   t insert x;if[l;l enlist (`upd;t;x);j+:1];}];
 
 if[not .conf.TP_BATCH_PERIOD;
