@@ -2,24 +2,15 @@
 
 \d .u
 
-init:{
-  LOGS::.qi.path(.conf.LOGS;.proc.self.name);
-  w::t!(count t::tables`.)#()
-  }
-  
-del:{w[x]_:w[x;;0]?y};
-.z.pc:{del[;x]each t};
-sel:{$[`~y;x;select from x where sym in y]}
-pub:{[t;x]{[t;x;w]if[count x:sel[x]w 1;(neg first w)(`upd;t;x)]}[t;x]each w t}
-add:{$[(count w x)>i:w[x;;0]?.z.w;.[`.u.w;(x;i;1);union;y];w[x],:enlist(.z.w;y)];(x;$[99=type v:value x;sel[v]y;@[0#v;`sym;`g#]])}
-sub:{if[x~`;:sub[;y]each t];if[11=type x;:$[type y;sub[;y]each x;sub'[x;y]]];if[not x in t;'x];del[x].z.w;add[x;y]}
-end:{(neg union/[w[;;0]])@\:(`.u.end;x)}
+w:(0#`)!()
+.qi.frompkg[`tp;`u];  
 
 ld:{if[not type key L::`$(-10_string L),string x;.[L;();:;()]];i::j::-11!(-2;L);if[0<=type i;-2 (string L)," is a corrupt log. Truncate to length ",(string last i)," and restart";exit 1];hopen L};
-tick:{init[];if[not min(`time`sym~2#key flip value@)each t;'`timesym];@[;`sym;`g#]each t;d::.z.D;;L::.qi.path(LOGS;"tp",10#".");l::ld d};
+tick:{init[];if[not min(`time`sym~2#key flip value@)each t;'`timesym];@[;`sym;`g#]each t;d::.z.D;;L::.qi.path(.conf.LOGS;.proc.self.name;"tp",10#".");l::ld d};
 
 endofday:{end d;d+:1;if[l;hclose l;l::0(`.u.ld;d)]};
 ts:{if[d<x;if[d<x-1;system"t 0";'"more than one day?"];endofday[]]};
+
 if[.conf.TP_BATCH_PERIOD;
   .event.addhandler[`.z.ts;{.u.pub'[.u.t;value each .u.t];@[`.;.u.t;@[;`sym;`g#]0#];i::.u.j;.u.ts .z.D}];
   upd:{[t;x]
@@ -35,6 +26,7 @@ if[not .conf.TP_BATCH_PERIOD;
 \d .
 
 .tp.init:{
+  .event.addhandler[`.z.pc;`.u.pc];
   if[.qi.isproc;
     $[count system"a .";
       .u.tick`;
