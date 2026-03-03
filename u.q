@@ -18,7 +18,12 @@ mt:{$[x~`;t;0=tx:type x;raze .z.s each x;10=tx;t where t like x;x]}    / match t
 sub:{s:$[((),y)~1#`$"*";`;y];if[11=type a:mt x;:sub[;s]each a];if[not x in t;'x];del[x].z.w;add[x;s]}
 
 / wrap sub - handles lists and dictionaries
-wsub:{($[99=type x;sub'[key x;`$get x];((),x)~1#"*";sub[`;`];type[x]in 0 10h;sub[x;`];assert];$[.proc.self.pkg=`tp;`.u `i`L;()])}
+wsub:{
+  snapshot:$[99=type x;sub'[key x;`$get x];((),x)~1#"*";sub[`;`];type[x]in 0 10h;sub[x;`];'badsub];
+  logfile:$[.proc.self.pkg=`tp;`.u `i`L;()];
+  subs:where[0<count each a]#a:t!{$[0=n:count a:w x;();n=m:a[;0]?y;();a[m;1]]}[;.z.w]each t;
+  `snapshot`logfile`subs!(snapshot;logfile;subs)
+  }
 
 handles:{union/[w[;;0]]}
 
