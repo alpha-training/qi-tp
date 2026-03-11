@@ -19,7 +19,7 @@ sub:{s:$[((),y)~1#`$"*";`;y];if[11=type a:mt x;:sub[;s]each a];if[not x in t;'x]
 
 / wrap sub - handles lists and dictionaries
 wsub:{
-  snapshot:$[99=type x;sub'[key x;`$get x];((),x)~1#"*";sub[`;`];type[x]in 0 10h;sub[x;`];'badsub];
+  snapshot:$[99=type x;sub'[key x;`$get x];((),.qi.tosym x)~(),`$"*";sub[`;`];type[x]in 0 10h;sub[x;`];'badsub];
   logfile:$[.proc.self.pkg=`tp;`.u `i`L;()];
   subs:where[0<count each a]#a:t!{$[0=n:count a:w x;();n=m:a[;0]?y;();a[m;1]]}[;.z.w]each t;
   `snapshot`logfile`subs!(snapshot;logfile;subs)
