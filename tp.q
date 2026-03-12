@@ -8,6 +8,8 @@
   t1:key .schemas.t;
   .qi.importx[`schemas;pkg];
   if[not count t2:key[.schemas.t]except t1;:()];
+  .qi.info"Dynamically adding ",","sv string t2;
+  .u.t:.u.t union t2;
   .u.w,:t2!count[t2]#enlist (.u.suballs,'`);
   }
 
