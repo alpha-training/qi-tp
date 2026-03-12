@@ -1,5 +1,16 @@
 / Based on Kx's https://github.com/KxSystems/kdb-tick
 
+.qi.import`mon
+
+.tp.regfeed:{[pkg]
+  if[`schemas in key .tp;if[pkg in .tp.schemas;:()]];
+  .tp.schemas,:pkg;
+  t1:key .schemas.t;
+  .qi.importx[`schemas;pkg];
+  if[not count t2:key[.schemas.t]except t1;:()];
+  .u.w,:t2!count[t2]#enlist (.u.suballs,'`);
+  }
+
 \d .u
 
 w:(0#`)!()

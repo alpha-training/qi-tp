@@ -3,9 +3,11 @@
 
 \d .u
 
+suballs:0#0i
+
 init:{w::(t!(count t::tables`.)#()),w;}
 
-del:{w[x]_:w[x;;0]?y};pc:{del[;x]each t};
+del:{w[x]_:w[x;;0]?y};pc:{del[;x]each t;suballs::suballs except x};
 
 sel:{$[`~y;x;select from x where sym in y]}
 
@@ -15,7 +17,7 @@ add:{$[(count w x)>i:w[x;;0]?.z.w;.[`.u.w;(x;i;1);union;y];w[x],:enlist(.z.w;y)]
 
 mt:{$[x~`;t;0=tx:type x;raze .z.s each x;10=tx;t where t like x;x]}    / match tables
 
-sub:{s:$[((),y)~1#`$"*";`;y];if[11=type a:mt x;:sub[;s]each a];if[not x in t;'x];del[x].z.w;add[x;s]}
+sub:{if[x~`;suballs::suballs union .z.w];s:$[((),y)~1#`$"*";`;y];if[11=type a:mt x;:sub[;s]each a];if[not x in t;'x];del[x].z.w;add[x;s]}
 
 / wrap sub - handles lists and dictionaries
 wsub:{
